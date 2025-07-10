@@ -24,38 +24,7 @@ It includes:
 - Protocol Buffers
 - Maven
 
-## Build
 
-Generate the gRPC and protobuf sources and build the project:
-
-```bash
-mvn clean install
-````
-
-## Run the Server
-
-Start the gRPC server:
-
-```bash
-java -cp target/test_grpc-1.0-SNAPSHOT.jar org.example.Server
-```
-
-The server starts listening on `localhost:50051`.
-
-## Run the Client
-
-Run the client to call the server:
-
-```bash
-java -cp target/test_grpc-1.0-SNAPSHOT.jar org.example.client.client
-```
-
-Sample output:
-
-```
-MobileNo:9876543210
-isNewUser:true
-```
 
 ## Notes
 
