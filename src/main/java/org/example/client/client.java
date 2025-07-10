@@ -3,10 +3,12 @@ package org.example.client;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.example.generated.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class client {
     public static void main(String[] args) {
-
+        Logger logger = LoggerFactory.getLogger(client.class);
         ManagedChannel managedChannel = ManagedChannelBuilder
                 .forAddress("localhost",50051)
                 .usePlaintext().build();
@@ -24,10 +26,12 @@ public class client {
 
 
         GetUserDataResponse response= stub.getUserData(request);
-        System.out.println("MobileNo:" + response.getMobileNumber());
+        logger.info("response for GetUserData");
+        logger.info("mobile numner rxd:"+ response.getMobileNumber());
 
         GetOrCreateUserResponse response2= stub.getOrCreateUser(request2);
-        System.out.println("isNewUser: "+ response2.getIsNewUser());
+        logger.info("response for GetOrCreateUserResponse");
+        logger.info("isNewUser:" + response2.getIsNewUser());
 
         managedChannel.shutdown();
 
