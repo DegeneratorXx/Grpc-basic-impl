@@ -45,6 +45,5 @@ src/main/java/org/example/
 * [gRPC Java documentation](https://grpc.io/docs/languages/java/)
 * [Protocol Buffers](https://developers.google.com/protocol-buffers)
 
-```
 
 
