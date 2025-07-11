@@ -19,17 +19,34 @@ public class client {
                 .build();
 
         GetUserDataResponse getUserResponse = stub.getUserData(getUserRequest);
-        System.out.println("Existing User Mobile Number: " + getUserResponse.getMobileNumber());
+        System.out.println(getUserResponse.getMobileNumber());
 
 
         // Request 2: Create or check a user
         GetOrCreateUserRequest createOrCheckRequest = GetOrCreateUserRequest.newBuilder()
-                .setUserId(456)
+                .setUserId(1)
                 .setMobileNumber("9876543210")
                 .build();
 
         GetOrCreateUserResponse createOrCheckResponse = stub.getOrCreateUser(createOrCheckRequest);
         System.out.println("Is New User: " + createOrCheckResponse.getIsNewUser());
+
+        // Request 3: Get Details of non existing user
+        GetUserDataRequest getUserDataRequest = GetUserDataRequest.newBuilder()
+                .setUserId(5)
+                .build();
+
+        GetUserDataResponse getUserDataResponse = stub.getUserData(getUserDataRequest);
+        System.out.println(getUserDataResponse.getMobileNumber());
+
+        // Request 4: Create or check a user
+        GetOrCreateUserRequest createOrCheckRequest2 = GetOrCreateUserRequest.newBuilder()
+                .setUserId(6)
+                .setMobileNumber("9876543210")
+                .build();
+
+        GetOrCreateUserResponse createOrCheckResponse2= stub.getOrCreateUser(createOrCheckRequest2);
+        System.out.println("Is New User: " + createOrCheckResponse2.getIsNewUser());
 
         managedChannel.shutdown();
     }

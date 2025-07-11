@@ -15,7 +15,7 @@ public class UserDataHelper {
             "SELECT is_new_user FROM " + TABLE_NAME + " WHERE user_id = ?";
 
     private static final String QUERY_INSERT_NEW_USER =
-            "INSERT INTO " + TABLE_NAME + " (user_id, mobile_number, is_new_user) VALUES (?, ?, TRUE)";
+            "INSERT INTO " + TABLE_NAME + " (user_id, mobile_number, is_new_user) VALUES (?, ?, FALSE)";
 
     /**
      * Get mobile number by userId.
@@ -27,8 +27,14 @@ public class UserDataHelper {
             ps.setLong(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getString("mobile_number");
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("USER FOUND-MOBILE NUMBER: ");
+                    sb.append(rs.getString("mobile_number"));
+
+                    return  sb.toString();
                 }
+                else
+                    return "NOT FOUND: NO USER FROM THIS ID:"+userId;
             }
 
         } catch (SQLException e) {
@@ -43,25 +49,59 @@ public class UserDataHelper {
      * If user does not exist, insert as new & return true.
      * If user exists, return value of is_new_user.
      */
+//    public boolean getOrCreateAndCheckIsNew(long userId, String mobileNumber) {
+//        if (mobileNumber == null) mobileNumber = "";
+//
+//        try (Connection connection = DBconnection.getInstance().getConnection()) {
+//
+//            // First, check if user exists
+//            try (PreparedStatement psCheck = connection.prepareStatement(QUERY_GET_IS_NEW_USER)) {
+//                psCheck.setLong(1, userId);
+//                try (ResultSet rs = psCheck.executeQuery()) {
+//                    if (rs.next()) {
+//                        return false;
+//                    }
+//                }
+//            }
+//
+//            // User does NOT exist — insert as new
+//            try (PreparedStatement psInsert = connection.prepareStatement(QUERY_INSERT_NEW_USER)) {
+//                psInsert.setLong(1, userId);
+//                psInsert.setString(2, mobileNumber);
+//
+//                psInsert.executeUpdate();
+//                System.out.println("[INFO] Inserted new user userId=" + userId);
+//                return true;
+//            }
+//
+//        } catch (SQLException e) {
+//            System.err.println("[ERROR] Failed to check/insert user userId=" + userId);
+//            e.printStackTrace();
+//        }
+//
+//        return false;
+//    }
     public boolean getOrCreateAndCheckIsNew(long userId, String mobileNumber) {
         if (mobileNumber == null) mobileNumber = "";
 
         try (Connection connection = DBconnection.getInstance().getConnection()) {
 
-            // First, check if user exists
+            // Check if user already exists
             try (PreparedStatement psCheck = connection.prepareStatement(QUERY_GET_IS_NEW_USER)) {
                 psCheck.setLong(1, userId);
                 try (ResultSet rs = psCheck.executeQuery()) {
                     if (rs.next()) {
-                        return rs.getBoolean("is_new_user");
+                        // user exists → NOT a new user
+                        return false;
                     }
                 }
             }
 
-            // User does NOT exist — insert as new
+            // User does NOT exist → insert new user
             try (PreparedStatement psInsert = connection.prepareStatement(QUERY_INSERT_NEW_USER)) {
                 psInsert.setLong(1, userId);
                 psInsert.setString(2, mobileNumber);
+
                 psInsert.executeUpdate();
                 System.out.println("[INFO] Inserted new user userId=" + userId);
                 return true;
@@ -72,6 +112,8 @@ public class UserDataHelper {
             e.printStackTrace();
         }
 
+        // On error, assume not new
         return false;
     }
+
 }

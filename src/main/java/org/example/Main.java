@@ -12,7 +12,7 @@ public class Main {
         Server server = ServerBuilder
                 .forPort(50051)
                 .addService(new UserServiceImpl())
-                .addService(ProtoReflectionService.newInstance())  // 👈 Add this
+                .addService(ProtoReflectionService.newInstance())
                 .build();
 
         System.out.println("gRPC server started on port 50051");
