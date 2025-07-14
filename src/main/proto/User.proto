@@ -7,7 +7,18 @@ option java_outer_classname = "UserServiceProto";
 service UserService {
   rpc getOrCreateUser(GetOrCreateUserRequest) returns (GetOrCreateUserResponse);
   rpc getUserData(GetUserDataRequest) returns (GetUserDataResponse);
+//  rpc checkIsNewUser(checkIsNewUserRequest) returns (checkIsNewUserResponse);
 }
+
+// can be implemented for further clarity
+//
+//message checkIsNewUserRequest{
+//  int64 userId=1;
+//}
+//
+//message checkIsNewUserResponse{
+//  bool isNewUser=1;
+//}
 
 message GetOrCreateUserRequest {
   int64 userId = 1;

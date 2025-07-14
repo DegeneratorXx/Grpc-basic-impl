@@ -32,6 +32,7 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
 
 
 
+
     @Override
     public void getOrCreateUser(GetOrCreateUserRequest request, StreamObserver<GetOrCreateUserResponse> responseObserver) {
         UserDataHelper helper = new UserDataHelper();
@@ -48,5 +49,6 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
 
 }

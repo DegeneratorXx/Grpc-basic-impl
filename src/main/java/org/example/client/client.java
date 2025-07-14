@@ -41,7 +41,7 @@ public class client {
 
         // Request 4: Create or check a user
         GetOrCreateUserRequest createOrCheckRequest2 = GetOrCreateUserRequest.newBuilder()
-                .setUserId(6)
+                .setUserId(11)
                 .setMobileNumber("9876543210")
                 .build();
 

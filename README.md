@@ -60,11 +60,44 @@ src/main/java/org/example/
 └── client/client.java         # gRPC client
 
 ```
+## Observability
+
+### Auto Instrumentation :
+
+You can download Java Agent for no-code oTel implementation from here: [oTel Java Agent](https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar)  
+To process the collected telemetry data download Jaeger: [Jaeger](https://www.jaegertracing.io/download/)
+
+Implemented oTel using no-code Java Agent:  
+Basic workflow:
+
+* gRPC server started.
+* Java Agent jar connected to it when running, which is configured to send telemetry data to port 4317.
+* The agent does automatic instrumentation, without touching our code it creates spans for gRPC calls coming and going and when SQL queries are executed, and sends these spans to the configured endpoint via OTLP gRPC.
+* Telemetry data is sent to the OTLP collector using OTLP gRPC.
+* Jaeger, which also has an OTLP collector embedded in it, receives the telemetry data.
+* We can see our service in Jaeger’s UI on the localhost which is `http://localhost:16686` by default.
+
+### To run Jaeger:
+```
+./jaeger-all-in-one --collector.otlp.enabled=true
+```
+
+### To run your gRPC server with oTel Java Agent:
+````
+java \
+  -javaagent:/Users/lakshitkhandelwal/otel/opentelemetry-javaagent.jar \
+  -Dotel.service.name=my-grpc-server \
+  -Dotel.exporter.otlp.protocol=grpc \
+  -Dotel.exporter.otlp.endpoint=http://127.0.0.1:4317 \
+  -Dotel.metrics.exporter=none \
+  -jar target/test_grpc-1.0-SNAPSHOT.jar
+````
 
 ## References
 
 * [gRPC Java documentation](https://grpc.io/docs/languages/java/)
 * [Protocol Buffers](https://developers.google.com/protocol-buffers)
+* [OpenTelemetry Documentation](https://opentelemetry.io/docs/)
 
 
 
