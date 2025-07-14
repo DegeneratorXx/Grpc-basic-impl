@@ -85,12 +85,12 @@ Basic workflow:
 ### To run your gRPC server with oTel Java Agent:
 ````
 java \
-  -javaagent:/Users/lakshitkhandelwal/otel/opentelemetry-javaagent.jar \
-  -Dotel.service.name=my-grpc-server \
+  -javaagent:path-to-agent-jar.jar \
+  -Dotel.service.name=your-service-name \
   -Dotel.exporter.otlp.protocol=grpc \
   -Dotel.exporter.otlp.endpoint=http://127.0.0.1:4317 \
   -Dotel.metrics.exporter=none \
-  -jar target/test_grpc-1.0-SNAPSHOT.jar
+  -jar target/your-app.jar
 ````
 
 ## References
