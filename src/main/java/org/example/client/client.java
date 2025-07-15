@@ -35,7 +35,6 @@ public class client {
         GetUserDataRequest getUserDataRequest = GetUserDataRequest.newBuilder()
                 .setUserId(5)
                 .build();
-
         GetUserDataResponse getUserDataResponse = stub.getUserData(getUserDataRequest);
         System.out.println(getUserDataResponse.getMobileNumber());
 
