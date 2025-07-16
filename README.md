@@ -62,6 +62,27 @@ src/main/java/org/example/
 ```
 ## Observability
 
+### Application Data Flow:
+```
+Application (gRPC + Postgres + Manual Instrumentation)
+                              |
+                generates traces & metrics
+                              |
+                sends via OTLP (gRPC @4319)
+                              |
+                OpenTelemetry Collector
+               ┌──────────────┴───────────────┐
+               |                              |
+          traces pipeline               metrics pipeline
+               |                              |
+       export OTLP to Jaeger           export Prometheus endpoint (:8889)
+               |                              |
+           Jaeger UI(:16686)                Prometheus scrapes metrics
+               |
+          visualize traces
+
+```
+
 ### Auto Instrumentation :
 
 You can download Java Agent for no-code oTel implementation from here: [oTel Java Agent](https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar)  
@@ -109,7 +130,39 @@ To run prometheus:
  path/to/prometheus-3.5.0.darwin-amd64/prometheus \
   --config.file=path/to/prometheus.yml
 ````
+### Mannual Instrumentation :
+ Mannual instrumentation is added for server using the OTel api,SDKs & Exporter.
 
+Following are the dependencies required for it-
+
+* OTel API
+````
+ <!-- OpenTelemetry API -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
+            <version>1.40.0</version>
+        </dependency>
+````
+* OTel SDK
+````
+<!-- SDK to configure exporters -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-sdk</artifactId>
+            <version>1.40.0</version>
+        </dependency>
+````
+* OTel Exporter
+````
+ <!-- OTLP exporter (to Collector) -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-otlp</artifactId>
+            <version>1.40.0</version>
+        </dependency>
+
+````
 
 ## References
 

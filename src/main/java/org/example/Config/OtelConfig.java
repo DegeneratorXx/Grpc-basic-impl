@@ -21,7 +21,7 @@ public class OtelConfig {
 
 
         OtlpGrpcSpanExporter exporter = OtlpGrpcSpanExporter.builder()
-                .setEndpoint("http://localhost:4319")
+                .setEndpoint("http://localhost:4317")
                 .build();
 
         SdkTracerProvider sdkTracerProvider= SdkTracerProvider.builder()
