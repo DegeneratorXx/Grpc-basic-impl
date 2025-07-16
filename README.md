@@ -54,10 +54,11 @@ CREATE TABLE users (
 
 ```
 src/main/java/org/example/
-├── Server.java                # gRPC server bootstrap
-├── Service/UserServiceImpl.java   # gRPC service implementation
-├── Repository/UserDataHelper.java # DB interaction helper
-└── client/client.java         # gRPC client
+├── Server.java                      # gRPC server bootstrap
+├── Service/UserServiceImpl.java     # gRPC service implementation
+├── Repository/UserDataHelper.java   # DB interaction helper
+├──client/client.java                # gRPC client
+└── config/OtelConfig.java           # OpenTelemetry configurations
 
 ```
 ## Observability
@@ -121,11 +122,11 @@ Finally, Grafana visualizes the Prometheus data.
 Prometheus and oTel collector's yaml files are added in the repo itself which specifies
 properties of them.
 
-To run the oTel collector:
+* To run the oTel collector:
 ```
 ./otelcol-contrib --config otel-collector-config.yaml
 ```
-To run prometheus:
+* To run prometheus:
 ````
  path/to/prometheus-3.5.0.darwin-amd64/prometheus \
   --config.file=path/to/prometheus.yml
