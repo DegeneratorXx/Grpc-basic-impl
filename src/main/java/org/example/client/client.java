@@ -2,16 +2,24 @@ package org.example.client;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.Tracer;
+import org.example.Config.OtelConfig;
 import org.example.generated.*;
 
 public class client {
+
     public static void main(String[] args) {
+
+
         ManagedChannel managedChannel = ManagedChannelBuilder
                 .forAddress("localhost", 50051)
                 .usePlaintext()
                 .build();
 
         UserServiceGrpc.UserServiceBlockingStub stub = UserServiceGrpc.newBlockingStub(managedChannel);
+
 
         // Request 1: Get details of an existing user
         GetUserDataRequest getUserRequest = GetUserDataRequest.newBuilder()
@@ -21,11 +29,10 @@ public class client {
         GetUserDataResponse getUserResponse = stub.getUserData(getUserRequest);
         System.out.println(getUserResponse.getMobileNumber());
 
-
         // Request 2: Create or check a user
         GetOrCreateUserRequest createOrCheckRequest = GetOrCreateUserRequest.newBuilder()
-                .setUserId(1)
-                .setMobileNumber("9876543210")
+                .setUserId(0)
+                .setMobileNumber("1234567890")
                 .build();
 
         GetOrCreateUserResponse createOrCheckResponse = stub.getOrCreateUser(createOrCheckRequest);

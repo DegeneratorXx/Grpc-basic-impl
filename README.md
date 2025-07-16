@@ -79,7 +79,7 @@ Basic workflow:
 
 ### To run Jaeger:
 ```
-./jaeger-all-in-one --collector.otlp.enabled=true
+./jaeger
 ```
 
 ### To run your gRPC server with oTel Java Agent:
@@ -92,13 +92,32 @@ java \
   -Dotel.metrics.exporter=none \
   -jar target/your-app.jar
 ````
+### To see the metrics:
+integrated an OpenTelemetry Collector, which receives telemetry data from my app,
+exposes metrics in Prometheus format, and Prometheus scrapes those metrics. 
+Finally, Grafana visualizes the Prometheus data.
+
+Prometheus and oTel collector's yaml files are added in the repo itself which specifies
+properties of them.
+
+To run the oTel collector:
+```
+./otelcol-contrib --config otel-collector-config.yaml
+```
+To run prometheus:
+````
+ path/to/prometheus-3.5.0.darwin-amd64/prometheus \
+  --config.file=path/to/prometheus.yml
+````
+
 
 ## References
 
 * [gRPC Java documentation](https://grpc.io/docs/languages/java/)
 * [Protocol Buffers](https://developers.google.com/protocol-buffers)
 * [OpenTelemetry Documentation](https://opentelemetry.io/docs/)
-
+* [Otel Collector](https://github.com/open-telemetry/opentelemetry-collector-releases/releases?q=otel-contrib&expanded=true)
+* [Prometheus Docs](https://prometheus.io/docs/introduction/overview/)
 
 
 
