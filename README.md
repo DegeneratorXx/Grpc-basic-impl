@@ -1,4 +1,4 @@
-# User Data gRPC Service (Java)
+# User Data gRPC Service-Client (Java)
 
 This project implements a simple gRPC server and client in Java for managing user data stored in a PostgreSQL database.
 
