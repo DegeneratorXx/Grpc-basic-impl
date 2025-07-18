@@ -132,39 +132,43 @@ properties of them.
   --config.file=path/to/prometheus.yml
 ````
 ### Mannual Instrumentation :
- Mannual instrumentation is added for server using the OTel api,SDKs & Exporter.
+Manual instrumentation is added for server using the OTel APIs, SDKs & Exporter. 
 
-Following are the dependencies required for it-
+* **Crucially, context propagation from client to server has been implemented using OpenTelemetry's gRPC instrumentation, ensuring end-to-end traces across service boundaries.**
+  
+![](client-server-interaction.png " Client-server-interaction (Context Propagation)")
 
-* OTel API
-````
- <!-- OpenTelemetry API -->
+This section imports the OpenTelemetry BOMs, which centralize the versions for many related OpenTelemetry artifacts. This ensures compatibility and simplifies dependency declarations.
+
+```xml
+<properties>
+    <!-- ... other properties like gRPC versions ... -->
+    <opentelemetry.version>1.51.0</opentelemetry.version>
+    <opentelemetry.instrumentation.bom.version>2.17.1</opentelemetry.instrumentation.bom.version>
+    <opentelemetry.semconv.version>1.34.0</opentelemetry.semconv.version>
+</properties>
+
+<dependencyManagement>
+    <dependencies>
+        <!-- Import OpenTelemetry Core BOM -->
         <dependency>
             <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api</artifactId>
-            <version>1.40.0</version>
+            <artifactId>opentelemetry-bom</artifactId>
+            <version>${opentelemetry.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
         </dependency>
-````
-* OTel SDK
-````
-<!-- SDK to configure exporters -->
+        <!-- Import OpenTelemetry Instrumentation BOM -->
         <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-sdk</artifactId>
-            <version>1.40.0</version>
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-instrumentation-bom</artifactId>
+            <version>${opentelemetry.instrumentation.bom.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
         </dependency>
-````
-* OTel Exporter
-````
- <!-- OTLP exporter (to Collector) -->
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-otlp</artifactId>
-            <version>1.40.0</version>
-        </dependency>
-
-````
-
+    </dependencies>
+</dependencyManagement>
+```
 ## References
 
 * [gRPC Java documentation](https://grpc.io/docs/languages/java/)
